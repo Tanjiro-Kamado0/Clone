@@ -16,9 +16,19 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Replace with your Node.js version
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm install  # Using npm install directly instead of an action
 
       - name: Build project
         run: npm run build
